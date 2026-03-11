@@ -1154,8 +1154,16 @@ function renderBody(){
   document.getElementById("bodyTitle").textContent=`현재 체형 (${latest}kg)`;
   const imgSrc=getBodyStyle(latest);
   const img=document.getElementById("bodyImg");
-  img.src=imgSrc;
-  img.style.cssText="";
+  // 이전 이미지 즉시 숨기고 새 이미지 로드 완료 후 표시
+  img.style.opacity="0";
+  img.style.transition="none";
+  const newImg=new Image();
+  newImg.onload=()=>{
+    img.src=imgSrc;
+    img.style.transition="opacity 0.3s ease";
+    img.style.opacity="1";
+  };
+  newImg.src=imgSrc;
 }
 
 // ============================================================
