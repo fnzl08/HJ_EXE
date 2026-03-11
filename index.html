@@ -1156,13 +1156,18 @@ function renderBody(){
   document.getElementById("bodyTitle").textContent=`현재 체형 (${kg}kg)`;
   const imgSrc=BODY_IMGS[kg]||BODY_IMGS[60];
   const wrap=document.getElementById("bodyImgWrap");
+  // background-image 방식으로 교체 - img 태그 겹침 문제 완전 해결
+  wrap.style.cssText=`
+    width:320px;
+    max-width:100%;
+    aspect-ratio:1333/2000;
+    background-image:url('${imgSrc}');
+    background-size:cover;
+    background-position:center top;
+    background-repeat:no-repeat;
+    border-radius:16px;
+  `;
   wrap.innerHTML="";
-  const img=document.createElement("img");
-  img.className="body-img";
-  img.id="bodyImg";
-  img.alt="체형 일러스트";
-  img.src=imgSrc;
-  wrap.appendChild(img);
 }
 
 // ============================================================
