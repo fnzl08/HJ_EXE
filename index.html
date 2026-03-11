@@ -254,6 +254,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--ocean-foam);color:va
   width:100%;max-width:320px;height:auto;
   display:block;
   border-radius:16px;
+  transition:none !important;
 }
 .body-label{
   font-family:'Jua',sans-serif;font-size:16px;color:var(--ocean-deep);
@@ -430,7 +431,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--ocean-foam);color:va
   </div>
   <div class="body-wrap">
     <div class="body-img-card">
-      <img class="body-img" id="bodyImg" src="" alt="체형 일러스트"/>
+      <div id="bodyImgWrap" style="width:100%;display:flex;justify-content:center;"></div>
     </div>
     <div class="body-label" id="bodyTitle">현재 체형 (60kg)</div>
     <div style="display:flex;justify-content:center;gap:14px;margin-top:6px;">
@@ -1147,15 +1148,21 @@ function drawChart(){
 // ============================================================
 function renderBody(){
   const latest=state.weights[0]?state.weights[0].val:START_WEIGHT;
+  const kg=Math.max(50,Math.min(60,Math.round(latest)));
   const prog=Math.max(0,Math.min(100,Math.round((START_WEIGHT-latest)/(START_WEIGHT-GOAL)*100)));
   document.getElementById("ptgFill").style.width=prog+"%";
   document.getElementById("ptgPct").textContent=prog+"%";
   document.getElementById("bodyCurrentKg").textContent=`현재: ${latest}kg`;
-  document.getElementById("bodyTitle").textContent=`현재 체형 (${latest}kg)`;
-  const imgSrc=getBodyStyle(latest);
-  const img=document.getElementById("bodyImg");
+  document.getElementById("bodyTitle").textContent=`현재 체형 (${kg}kg)`;
+  const imgSrc=BODY_IMGS[kg]||BODY_IMGS[60];
+  const wrap=document.getElementById("bodyImgWrap");
+  wrap.innerHTML="";
+  const img=document.createElement("img");
+  img.className="body-img";
+  img.id="bodyImg";
+  img.alt="체형 일러스트";
   img.src=imgSrc;
-  img.style.cssText="";
+  wrap.appendChild(img);
 }
 
 // ============================================================
